@@ -1,0 +1,247 @@
+{
+	"info": {
+		"_postman_id": "78dee843-68c2-4ed8-9a51-19c6b521dd1e",
+		"name": "Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Status",
+			"_postman_id": "17ea9321-a037-4155-8ba7-e2383cbaece8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "127.0.0.1:3000/status"
+			},
+			"response": []
+		},
+		{
+			"name": "Find all registers - Get",
+			"_postman_id": "9dcd757e-dd5b-44cc-85d2-efd522e01880",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "127.0.0.1:3000/api/recommendation"
+			},
+			"response": []
+		},
+		{
+			"name": "Recommendation - Sucesso",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ef73b700-4417-4edb-8a83-78638ddc0019",
+						"exec": [
+							"pm.environment.set(\"Description\", pm.variables.replaceIn('{{$randomLoremSentence}}'))",
+							"",
+							"pm.environment.set(\"Stars\", Math.floor(Math.random() * (5 - 1) + 1))",
+							"",
+							"function firstName(){",
+							"    var firstName = [\"Alice\", \"Bárbara\", \"Carolina\", \"Denise\", \"Emanuel\", \"Fábio\", \"Gabriel\", \"Helena\", \"Ingrid\", \"João\", \"Katia\", \"Laura\"];",
+							"",
+							"    var randomFirstName = firstName[Math.floor(Math.random() * firstName.length)];",
+							"",
+							"    return randomFirstName;",
+							"}",
+							"",
+							"pm.environment.set(\"FirstName\", firstName())",
+							"",
+							"function lastName(){",
+							"    var lastName = [\"Da Silva\", \"Rios\", \"Guedes\", \"Alves\", \"De Sousa\", \"Dos Santos\", \"Sousa Silva\", \"Aragão\", \"Araújo\", \"Sampaio\", \"Júnior Silva\", \"Pereira Coelho\"];",
+							"",
+							"    var randomLastName = lastName[Math.floor(Math.random() * lastName.length)];",
+							"",
+							"    return randomLastName;",
+							"}",
+							"",
+							"pm.environment.set(\"LastName\", lastName())",
+							"",
+							"pm.environment.set(\"FullName\", pm.variables.get(\"FirstName\") + \" \" + pm.variables.get(\"LastName\"))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a01d0244-0607-4134-8b47-34a982533f05",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    });",
+							"",
+							"pm.test(\"Check FullName is true\", function () {",
+							"    pm.expect(pm.variables.get(\"FullName\")).to.eql(JSON.parse(responseBody).fullName);",
+							"    });",
+							"",
+							"pm.test(\"Check Description is true\", function () {",
+							"    pm.expect(pm.variables.get(\"Description\")).to.eql(JSON.parse(responseBody).description);",
+							"    });",
+							"",
+							"    pm.test(\"Check Stars is true\", function () {",
+							"    pm.expect(pm.variables.get(\"Stars\")).to.eql(JSON.parse(responseBody).stars);",
+							"    });",
+							"",
+							"    pm.test(\"Check Situation is true\", function () {",
+							"    pm.expect(\"Pendente\").to.eql(JSON.parse(responseBody).situation);",
+							"    });",
+							"",
+							"    pm.test(\"Check Status is true\", function () {",
+							"    pm.expect(true).to.eql(JSON.parse(responseBody).status);",
+							"    });",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "5ca46633-a3c1-4b65-8f81-847dfae35d0e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\": \"{{FullName}}\",\n    \"description\": \"{{Description}}\",\n    \"stars\": {{Stars}},\n    \"situation\": \"Pendente\",\n    \"status\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}/api/recommendation"
+			},
+			"response": []
+		},
+		{
+			"name": "Recommendation - Falha: Informe o sobrenome",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "133dd3e4-088c-4c3d-94bc-138e16cd4f2d",
+						"exec": [
+							"pm.environment.set(\"Description\", pm.variables.replaceIn('{{$randomLoremSentence}}'))",
+							"",
+							"pm.environment.set(\"Stars\", Math.floor(Math.random() * (5 - 1) + 1))",
+							"",
+							"function firstName(){",
+							"    var firstName = [\"Alice\", \"Bárbara\", \"Carolina\", \"Denise\", \"Emanuel\", \"Fábio\", \"Gabriel\", \"Helena\", \"Ingrid\", \"João\", \"Katia\", \"Laura\"];",
+							"",
+							"    var randomFirstName = firstName[Math.floor(Math.random() * firstName.length)];",
+							"",
+							"    return randomFirstName;",
+							"}",
+							"",
+							"pm.environment.set(\"FirstName\", firstName())",
+							"",
+							"function lastName(){",
+							"    var lastName = [\"Da Silva\", \"Rios\", \"Guedes\", \"Alves\", \"De Sousa\", \"Dos Santos\", \"Sousa Silva\", \"Aragão\", \"Araújo\", \"Sampaio\", \"Júnior Silva\", \"Pereira Coelho\"];",
+							"",
+							"    var randomLastName = lastName[Math.floor(Math.random() * lastName.length)];",
+							"",
+							"    return randomLastName;",
+							"}",
+							"",
+							"pm.environment.set(\"LastName\", lastName())",
+							"",
+							"pm.environment.set(\"FullName\", pm.variables.get(\"FirstName\") + \" \" + pm.variables.get(\"LastName\"))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c09056c9-ef44-4749-a7ff-8238fa34e124",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Informe o nome e sobrenome.\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "e070471c-0b39-4c91-959b-74ab656f6f75",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\": \"{{FirstName}}\",\n    \"description\": \"{{Description}}\",\n    \"stars\": {{Stars}},\n    \"situation\": \"Pendente\",\n    \"status\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "127.0.0.1:3000/api/recommendation"
+			},
+			"response": []
+		},
+		{
+			"name": "Recommendation - Put",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e74ed0e2-9fbc-4e8c-a43a-4f7da4557c3d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "8845c946-8641-4f8d-b731-648069570db9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\": \"Melissa Sousa\",\n    \"description\": \"Aluna\",\n    \"stars\": 1,\n    \"situation\": \"Pago\",\n    \"status\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "127.0.0.1:3000/api/recommendation/6474adf4269de6463b480328"
+			},
+			"response": []
+		},
+		{
+			"name": "Recommendation - Delete",
+			"_postman_id": "aee35230-0deb-44b5-b25f-7afe3819847f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "127.0.0.1:3000/api/recommendation/6474917b269de6463b4802f9"
+			},
+			"response": []
+		}
+	]
+}
